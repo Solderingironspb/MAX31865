@@ -26,7 +26,7 @@ int main(void) {
 	while (1) {
     	
     	MAX31865_PT100_R = (MAX31865_Get_Resistance(SPI1) * MAX31865_Correction_multiplicative) + MAX31865_Correction_additive; //Значение сопротивления датчика PT100
-    	MAX31865_PT100_T = MAX31865_Get_Temperature(MAX31865_PT100_R); //Рассчет температуры датчика PT100
+    	MAX31865_PT100_T = MAX31865_Get_Temperature(MAX31865_PT100_R); //Расчет температуры датчика PT100
     	Delay_ms(200);
 	}
 }

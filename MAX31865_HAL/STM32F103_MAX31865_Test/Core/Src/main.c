@@ -23,7 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "MAX31865.h"
-
+uint8_t Data = 0;
 /*-----------------------------------------Глобальные переменные---------------------------------------------*/
 extern float MAX31865_PT100_R; //Глобальная переменная, определяющая сопротивление датчика PT100
 extern float MAX31865_PT100_T; //Глобальная переменная, определяющая температуру датчика PT100
@@ -97,6 +97,7 @@ int main(void) {
 	MX_GPIO_Init();
 	MX_SPI1_Init();
 	/* USER CODE BEGIN 2 */
+    //Data = MAX31865_Configuration_info(&hspi1);
 	MAX31865_Init(&hspi1, 3); //3 проводное подключение
 	/* USER CODE END 2 */
 
@@ -107,7 +108,7 @@ int main(void) {
 
 		/* USER CODE BEGIN 3 */
 		MAX31865_PT100_R = (MAX31865_Get_Resistance(&hspi1)* MAX31865_Correction_multiplicative) + MAX31865_Correction_additive; //Значение сопротивления датчика PT100
-		MAX31865_PT100_T = MAX31865_Get_Temperature(MAX31865_PT100_R); //Рассчет температуры датчика PT100
+		MAX31865_PT100_T = MAX31865_Get_Temperature(MAX31865_PT100_R); //Расчет температуры датчика PT100
 		HAL_Delay(200);
 	}
 	/* USER CODE END 3 */

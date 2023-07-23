@@ -29,10 +29,7 @@
  ******************************************************************************
  */
 
-#ifndef INC_MAX31865_
-#define INC_MAX31865_
-
-#include <math.h>
+#include "rtd_calculator.h"
 #include <stdbool.h>
 
  /*----------Макросы----------*/
@@ -53,6 +50,7 @@
 #include "stm32f103xx_CMSIS.h"
 #elif defined (USE_HAL)
 #include "stm32f1xx_hal.h"
+#include "main.h"
 #endif
 
 #if defined (USE_CMSIS)
@@ -65,6 +63,4 @@ uint8_t MAX31865_Configuration_info(SPI_HandleTypeDef * hspi);
 double MAX31865_Get_Resistance(SPI_HandleTypeDef * hspi);
 #endif
 
-double MAX31865_Get_Temperature(double PT100_Resistance);
-
-#endif /* INC_MAX31865_ */
+double MAX31865_Get_Temperature(double Resistance);

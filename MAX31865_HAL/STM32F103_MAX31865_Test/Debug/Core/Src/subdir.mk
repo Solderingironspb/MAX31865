@@ -7,6 +7,7 @@
 C_SRCS += \
 ../Core/Src/MAX31865.c \
 ../Core/Src/main.c \
+../Core/Src/rtd_calculator.c \
 ../Core/Src/stm32f1xx_hal_msp.c \
 ../Core/Src/stm32f1xx_it.c \
 ../Core/Src/syscalls.c \
@@ -16,6 +17,7 @@ C_SRCS += \
 OBJS += \
 ./Core/Src/MAX31865.o \
 ./Core/Src/main.o \
+./Core/Src/rtd_calculator.o \
 ./Core/Src/stm32f1xx_hal_msp.o \
 ./Core/Src/stm32f1xx_it.o \
 ./Core/Src/syscalls.o \
@@ -25,6 +27,7 @@ OBJS += \
 C_DEPS += \
 ./Core/Src/MAX31865.d \
 ./Core/Src/main.d \
+./Core/Src/rtd_calculator.d \
 ./Core/Src/stm32f1xx_hal_msp.d \
 ./Core/Src/stm32f1xx_it.d \
 ./Core/Src/syscalls.d \

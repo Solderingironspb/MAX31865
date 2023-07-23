@@ -30,15 +30,10 @@
 
 #include "MAX31865.h"
 
- /*--------------Характеристики датчика типа PT100 и референсный резистор, подключенный к MAX31865------------*/
+/*--------------Характеристики датчика типа PT100 и референсный резистор, подключенный к MAX31865------------*/
 #define MAX31865_PT100_R0 (double)100.0 //Сопротивление датчика PT100, при 0 °С
 #define MAX31865_R_REF (double)428.5 //Сопротивление референсного резистора, подключенного к MAX31865
 /*--------------Характеристики датчика типа PT100 и референсный резистор, подключенный к MAX31865------------*/
-
-/*-----------Коэффициенты из ГОСТ 6651-2009 для датчика типа PT100(Платиновые ТС И ЧЭ, 0.00385°С^-1)---------*/
-#define MAX31865_A (double)0.0039083
-#define MAX31865_B (double)0.0000005775
-/*-----------Коэффициенты из ГОСТ 6651-2009 для датчика типа PT100(Платиновые ТС И ЧЭ, 0.00385°С^-1)---------*/
 
 /*-----------------------------------------Глобальные переменные---------------------------------------------*/
 float MAX31865_PT100_R = 0.0; //Глобальная переменная, определяющая сопротивление датчика PT100
@@ -55,7 +50,6 @@ extern SPI_HandleTypeDef hspi1; //Шина SPI, которую будем под
 //P.S. Максимальная скорость spi 5 МГц.
 //Также обратите внимание, что CLPOL = 1 или 0. CPHA = 1.
 /*-------------------------------------------Для работы по spi-----------------------------------------------*/
-
 
 /*
  **************************************************************************************************
@@ -78,10 +72,9 @@ void MAX31865_Init(SPI_HandleTypeDef *hspi, uint8_t num_wires) {
 	MAX31865_Sensor_Error = 0;
 	uint8_t MAX31865_Configuration_register_write[] = { 0x80, 0x00 };
 	if (num_wires == 2 || num_wires == 4) {
-		MAX31865_Configuration_register_write[1] = 0xC3; 
-	}
-	else if (num_wires == 3) {
-		MAX31865_Configuration_register_write[1] = 0xD3; 
+		MAX31865_Configuration_register_write[1] = 0xC3;
+	} else if (num_wires == 3) {
+		MAX31865_Configuration_register_write[1] = 0xD3;
 	}
 	NSS_ON;
 #if defined (USE_CMSIS)
@@ -90,11 +83,11 @@ void MAX31865_Init(SPI_HandleTypeDef *hspi, uint8_t num_wires) {
 	HAL_SPI_Transmit(hspi, MAX31865_Configuration_register_write, 2, 100);
 
 #endif
-	NSS_OFF;
-	
+	NSS_OFF
+	;
+
 }
 
-    
 /*
  **************************************************************************************************
  *  @breif Получить информацию о конфигурации модуля MAX31865 
@@ -103,12 +96,12 @@ void MAX31865_Init(SPI_HandleTypeDef *hspi, uint8_t num_wires) {
  *  @attention Не удивляйтесь, если отправите при инициализации 0xC3, а получите 0xC1
  *  (См. datasheet MAX31865 стр. 14 "The fault status clear bit D1, self-clears to 0.")
  **************************************************************************************************
-*/
-    
+ */
+
 #if defined (USE_CMSIS)
 uint8_t MAX31865_Configuration_info(SPI_TypeDef* SPI) {
 #elif defined (USE_HAL)
-uint8_t MAX31865_Configuration_info(SPI_HandleTypeDef * hspi) {
+uint8_t MAX31865_Configuration_info(SPI_HandleTypeDef *hspi) {
 #endif
 
 	uint8_t read_data = 0x00;
@@ -122,11 +115,12 @@ uint8_t MAX31865_Configuration_info(SPI_HandleTypeDef * hspi) {
 	HAL_SPI_Transmit(hspi, &read_data, 1, 100);
 	HAL_SPI_Receive(hspi, &MAX31865_Configuration, 1, 100);
 #endif
-	NSS_OFF;
+	NSS_OFF
+	;
 
 	return MAX31865_Configuration;
 }
-	
+
 /*
  **************************************************************************************************
  *  @breif Основная функция работы с модулем MAX31865
@@ -137,15 +131,15 @@ uint8_t MAX31865_Configuration_info(SPI_HandleTypeDef * hspi) {
  *  @attention Не удивляйтесь, если отправите при инициализации 0xC3, а получите 0xC1
  *  (См. datasheet MAX31865 стр. 14 "The fault status clear bit D1, self-clears to 0.")
  **************************************************************************************************
-*/
-    
+ */
+
 #if defined (USE_CMSIS)
 double MAX31865_Get_Resistance(SPI_TypeDef* SPI) {
 #elif defined (USE_HAL)
-double MAX31865_Get_Resistance(SPI_HandleTypeDef * hspi) {
+double MAX31865_Get_Resistance(SPI_HandleTypeDef *hspi) {
 #endif
 
-    uint8_t MAX31865_rx_buffer[7]; //буфер, куда будем складывать приходящие данные
+	uint8_t MAX31865_rx_buffer[7]; //буфер, куда будем складывать приходящие данные
 	double data; //переменная для вычислений
 
 	struct rx_data_MAX31865 {
@@ -167,7 +161,8 @@ double MAX31865_Get_Resistance(SPI_HandleTypeDef * hspi) {
 	HAL_SPI_Transmit(hspi, &MAX31865_start_address_of_the_poll, 1, 100);
 	HAL_SPI_Receive(hspi, MAX31865_rx_buffer, 7, 100);
 #endif
-	NSS_OFF;
+	NSS_OFF
+	;
 
 	MAX31865_receieve_data.RTD_Resistance_Registers = ((MAX31865_rx_buffer[0] << 8) | MAX31865_rx_buffer[1]) >> 1; //Данные регистров сопротивления
 	MAX31865_receieve_data.High_Fault_Threshold = ((MAX31865_rx_buffer[2] << 8) | MAX31865_rx_buffer[3]) >> 1; //Данные верхнего порого неисправности
@@ -191,31 +186,13 @@ double MAX31865_Get_Resistance(SPI_HandleTypeDef * hspi) {
 		//Сброс ошибки, по желанию. Обычно ее не сбрасывают в автомате, а зовут оператора, чтоб квитировал ошибку.
 		//До прихода оператора, установка находится в ошибке, все управляющие узлы должны отключаться.
 	}
-	
-    data = ((double)MAX31865_receieve_data.RTD_Resistance_Registers * MAX31865_R_REF) / (double)32768.0; // Replace 4000 by 400 for PT100
-    return data;
+
+	data = ((double) MAX31865_receieve_data.RTD_Resistance_Registers * MAX31865_R_REF ) / (double) 32768.0;
+	return data;
 }
 
-/*
- **************************************************************************************************
- *  @breif Преобразование сопротивления в температуру, согласно ГОСТ 6651-2009
- *  @attention Для расчета температуры, воспользуемся уравнением Каллендара − Ван Дюзена.
- *  Из ГОСТ берем коэффициенты для расчета. Для положительных температур считаем квадратное уравнение,
- *  один корень из которого и будет искомая температура, а для отрицательных температур рассчитываем
- *  полином 5 степени.
- *  @param  PT100_Resistance - Сопротивление датчика PT100
- *  @retval  Возвращает значение температуры
- *  @attention Да, функция тяжелая, но все сделано так, чтоб получить максимально правильное значение.
- **************************************************************************************************
-*/
-
-double MAX31865_Get_Temperature(double PT100_Resistance) {
-	if (PT100_Resistance >= (float)100.0f) {
-		double MAX31865_math_Discriminant = (double)0.00001527480889 - ((double)-0.00000231 * (1 - (PT100_Resistance / MAX31865_PT100_R0)));
-		return ((double)-0.0039083 + sqrt(MAX31865_math_Discriminant)) / (double)-0.000001155;
-	}
-	else {
-		return MAX31865_PT100_T = (double)0.000000000270 * pow(PT100_Resistance, 5) - (double)0.000000066245 * pow(PT100_Resistance, 4) - (double)0.000000184636 * pow(PT100_Resistance, 3)
-			+ (double)0.002320232987 * pow(PT100_Resistance, 2) + (double)2.229927824035 * PT100_Resistance - (double)242.090854986215;
-	}
+double MAX31865_Get_Temperature(double Resistance) {
+	double Temperature = Get_Temperature_PT(Resistance, PT100_R0, 0);
+	return Temperature;
 }
+

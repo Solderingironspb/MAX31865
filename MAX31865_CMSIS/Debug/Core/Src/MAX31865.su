@@ -1,0 +1,4 @@
+MAX31865.c:67:6:MAX31865_Init	24	static
+MAX31865.c:102:9:MAX31865_Configuration_info	24	static
+MAX31865.c:137:8:MAX31865_Get_Resistance	48	static
+MAX31865.c:194:8:MAX31865_Get_Temperature	32	static

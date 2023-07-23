@@ -1,4 +1,5 @@
 Core/Src/MAX31865.o: ../Core/Src/MAX31865.c ../Core/Inc/MAX31865.h \
+ ../Core/Inc/rtd_calculator.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -25,6 +26,8 @@ Core/Src/MAX31865.o: ../Core/Src/MAX31865.c ../Core/Inc/MAX31865.h \
  ../Core/Inc/main.h
 
 ../Core/Inc/MAX31865.h:
+
+../Core/Inc/rtd_calculator.h:
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 

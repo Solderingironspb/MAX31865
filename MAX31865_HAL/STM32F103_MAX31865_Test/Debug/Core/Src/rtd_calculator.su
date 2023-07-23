@@ -1,0 +1,6 @@
+rtd_calculator.c:71:8:Get_Temperature_PT	56	static
+rtd_calculator.c:101:8:Get_Resistance_PT	48	static
+rtd_calculator.c:129:8:Get_Temperature_M	56	static
+rtd_calculator.c:155:8:Get_Resistance_M	48	static
+rtd_calculator.c:179:8:Get_Temperature_N	64	static
+rtd_calculator.c:212:8:Get_Resistance_N	48	static
