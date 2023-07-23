@@ -108,7 +108,7 @@ int main(void) {
 
 		/* USER CODE BEGIN 3 */
 		MAX31865_PT100_R = (MAX31865_Get_Resistance(&hspi1)* MAX31865_Correction_multiplicative) + MAX31865_Correction_additive; //Значение сопротивления датчика PT100
-		MAX31865_PT100_T = MAX31865_Get_Temperature(MAX31865_PT100_R); //Расчет температуры датчика PT100
+		MAX31865_PT100_T = MAX31865_Get_Temperature(MAX31865_PT100_R); //Рассчет температуры датчика PT100
 		HAL_Delay(200);
 	}
 	/* USER CODE END 3 */

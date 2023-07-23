@@ -42,8 +42,8 @@
 /*----------Макросы----------*/
 
  /*----------Выбор библиотеки----------*/
-//#define USE_CMSIS   //Работать на CMSIS
-#define USE_HAL   //Работать на HAL
+#define USE_CMSIS   //Работать на CMSIS
+//#define USE_HAL   //Работать на HAL
 /*----------Выбор библиотеки----------*/
 
 #if defined (USE_CMSIS)
